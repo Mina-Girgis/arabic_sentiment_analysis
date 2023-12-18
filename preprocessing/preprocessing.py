@@ -27,7 +27,7 @@ class Preprocessing:
                                  ـ     # Tatwil/Kashida
                              """, re.VERBOSE)
 
-    def __init__(self, data):
+    def __init__(self, data=''):
         self.text = data
         self.count = 0
         self.stop_words = self.read_stop_words()
