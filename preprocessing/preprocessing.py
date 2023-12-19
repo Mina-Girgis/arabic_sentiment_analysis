@@ -8,7 +8,6 @@ from nltk import wordpunct_tokenize, SnowballStemmer, ISRIStemmer, FreqDist
 from translate import Translator
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet, stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer
 import string
 # import emoji
 
