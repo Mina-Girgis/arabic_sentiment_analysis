@@ -47,6 +47,7 @@ class CustomDataGenerator(Sequence):
             return np.array(batch_data)
 
 
+
 class TransformerModel:
     def __init__(self, train_data, test_data, max_words, max_len, epochs):
         self.max_words = max_words
@@ -124,17 +125,20 @@ class TransformerModel:
         model = keras.models.Model(inputs=inputs, outputs=outputs)
         return model
 
+
     def get_angles(self, pos, k, d):
         # Get i from dimension span k
         i = k // 2
         # Calculate the angles using pos, i and d
         angles = pos / np.power(10000, 2 * i / d)
+
         return angles
 
     def positional_encoding(self, positions, d_model):
         # initialize a matrix angle_rads of all the angles
         angle_rads = self.get_angles(np.arange(positions)[:, np.newaxis],
-                                     np.arange(d_model)[np.newaxis, :], d_model)
+
+        np.arange(d_model)[np.newaxis, :], d_model)
 
         # apply sin to even indices in the array; 2i
         angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
@@ -148,6 +152,7 @@ class TransformerModel:
 
         return tf.constant(pos_encoding, dtype=tf.float32)
 
+
     def train_model(self, epochs):
         label_mapping = {-1: 0, 0: 1, 1: 2}
         # Apply the mapping to your labels
@@ -158,10 +163,6 @@ class TransformerModel:
         self.model.fit(data_generator, epochs=epochs)
 
     def word_embedding(self, data):
-        # initialize Tokenizer for word embedding
-
-        # tokenizer = Tokenizer(num_words=vocab_size, oov_token="<OOV>")
-        # tokenizer.fit_on_texts(texts)
 
         # Convert text to sequences of integers
         sequences = self.tokenizer.texts_to_sequences(data)
@@ -223,3 +224,4 @@ class TransformerModel:
 
         result_df = pd.DataFrame({'ID': new_data['ID'], 'rating': original_sentiments})
         return result_df
+
