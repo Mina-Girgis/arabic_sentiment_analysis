@@ -28,7 +28,7 @@ if __name__ == "__main__":
     train_data, test_data = train_test_split(df, test_size=0.3, random_state=42, shuffle=True)
 
     # region Transformer Model
-    lstm_model = LSTM_model(train_data, test_data, 10000, 50)
+    lstm_model = LSTM_model(train_data, test_data, 10000, 50, 12)
     accuracy, loss = lstm_model.evaluate_model()
 
     validation_data = load_file("test _no_label.csv")
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # endregion
 
     # region Transformer Model
-    transformer_model = TransformerModel(train_data, test_data, 10000, 50, 20)
+    transformer_model = TransformerModel(train_data, test_data, 10000, 50, 12)
     accuracy, loss = transformer_model.evaluate_model()
 
     validation_data = load_file("test _no_label.csv")

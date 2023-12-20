@@ -9,7 +9,7 @@ from preprocessing.preprocessing import Preprocessing
 
 
 class LSTM_model:
-    def __init__(self, train, test, max_words, max_len):
+    def __init__(self, train, test, max_words, max_len, epochs):
         self.train_data = train
         self.test_data = test
         self.max_words = max_words
@@ -17,7 +17,7 @@ class LSTM_model:
 
         self.word_embedding()
         self.compile_model(ETA=0.0001)
-        self.train_model(epochs=10)
+        self.train_model(epochs=epochs)
 
     def word_embedding(self):
         tokenizer = Tokenizer(num_words=self.max_words, oov_token="<OOV>")
