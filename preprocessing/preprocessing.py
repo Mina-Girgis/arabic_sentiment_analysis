@@ -1,18 +1,14 @@
 import re
-import nltk
-import pandas as pd
-from regex import regex as re, regex
+import emoji
+from regex import regex as re
 from textblob import *
 from langdetect import detect
-from nltk import wordpunct_tokenize, SnowballStemmer, ISRIStemmer, FreqDist
+from nltk import wordpunct_tokenize, ISRIStemmer, FreqDist
 from translate import Translator
 from nltk.tokenize import word_tokenize
-from nltk.corpus import wordnet, stopwords
+from nltk.corpus import stopwords
 import string
-# import emoji
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
+
 
 class Preprocessing:
     punctuations_list = '''`÷×؛<>_()*&^%][ـ،/:"؟.,'{}~¦+|!”…“–ـ''' + string.punctuation
@@ -178,7 +174,6 @@ class Preprocessing:
         self.text = stemmed_text
         return self
 
-
     def remove_char(self):
         pattern = r'[^\p{Arabic}\p{Latin}\p{N}\p{So}\s]+'
         cleaned_text = re.sub(pattern, '', self.text)
@@ -191,37 +186,21 @@ class Preprocessing:
         print(fdist.most_common())
         return self
 
-    # def convert_emoji_to_Text(self):
-    #     text_copy = self.text
-    #     # extract emojis
-    #     pattern = r'[^\p{Emoji}]'
-    #     cleaned_text = re.sub(pattern, '', text_copy)
-    #     # convert it from string to list
-    #     emoji_list = [char for char in cleaned_text]
-    #     # translate emojis into english
-    #     converted_text = emoji.demojize(cleaned_text)
-    #     # replace every : into space
-    #     converted_text = converted_text.replace(":", " ")  # Replace ":" with space
-    #     # Use a regular expression to replace multiple spaces with a single space
-    #     converted_text = re.sub(r'\s+', ' ', converted_text)
-    #     # Strip leading and trailing spaces
-    #     cleaned_converted_text = converted_text.strip()
-    #     # convert it from string to list
-    #     cleaned_converted_text = cleaned_converted_text.split()
-    #
-    #     # translate english into arabic
-    #     translated_sentence_list = []
-    #     for element in cleaned_converted_text:
-    #         translator = Translator(to_lang="ar")
-    #         translated_word = translator.translate(element)
-    #         translated_sentence_list.append(translated_word)
-    #     # put them together in map
-    #     emoji_text_list = {key: value for key, value in zip(emoji_list, translated_sentence_list)}
-    #     document_text = self.text
-    #     for emojii, value in emoji_text_list.items():
-    #         document_text = self.text.replace(emojii, value)
-    #     self.text = document_text
-    #     return self
+    def convert_emoji_to_Text(self):
+        # translate emojis into english
+        converted_text = emoji.demojize(self.text)
+
+        # replace every : into space
+        converted_text = converted_text.replace(":", " ")  # Replace ":" with space
+        converted_text = converted_text.replace("_", " ")  # Replace ":" with space
+
+        # Use a regular expression to replace multiple spaces with a single space
+        converted_text = re.sub(r'\s+', ' ', converted_text)
+        # Strip leading and trailing spaces
+        cleaned_converted_text = converted_text.strip()
+
+        self.text = cleaned_converted_text
+        return self
 
     def normalize_arabic(self):
         self.text = re.sub("[إأآا]", "ا", self.text)
@@ -245,28 +224,24 @@ class Preprocessing:
 
         self.remove_extra_spaces()
         # english
-        # self.remove_english_duplicate_letters()
-        # self.fix_english_spelling_mistakes()
+        self.remove_english_duplicate_letters()
         self.remove_english_stop_words()
-        # self.translate_sentence()
+        self.convert_emoji_to_Text()
 
         # arabic
         self.normalize_arabic()
         self.remove_diacritics()
         self.remove_punctuations()
+
         self.remove_char()
         self.remove_arabic_duplicate_letters()
         self.remove_arabic_stop_words()
-        self.remove_special_characters()
         self.remove_all_numbers()
         self.remove_extra_spaces()
-        self.remove_all_emojis()
         self.stem_text()
-        # self.get_word_frequencies()
-
 
         self.count += 1
-        # print(self.count)
+
         return self.text
 
 # english
