@@ -139,6 +139,10 @@ class TransformerModel:
         pre = Preprocessing()
         X = new_data['review_description'].apply(pre.preprocessing_methods)
 
+        # Apply word embedding to the preprocessed sequences
+        tokenizer = Tokenizer(num_words=self.max_words, oov_token="<OOV>")
+        tokenizer.fit_on_texts(self.train_data['review_description'])
+
         new_sequences = self.tokenizer.texts_to_sequences(X)
         new_padded_sequence = pad_sequences(new_sequences, maxlen=self.max_len, padding='post')
         embedding_layer = Embedding(input_dim=self.max_words, output_dim=self.embedding_dim)

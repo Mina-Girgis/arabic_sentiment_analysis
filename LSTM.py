@@ -54,8 +54,8 @@ class LSTM_model:
 
     def evaluate_model(self):
         loss, accuracy = self.model.evaluate(self.test_padded, self.test_labels_mapped)
-        print(f"Test Loss: {loss}")
-        print(f"Test Accuracy: {accuracy}")
+        print(f"Test Loss: {round(loss, 5)}")
+        print(f"Test Accuracy: {round(accuracy, 5)}")
         return accuracy, loss
 
     def predict_sentiment(self, new_data):
