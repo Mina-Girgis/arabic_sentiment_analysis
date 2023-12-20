@@ -1,9 +1,9 @@
 import pandas as pd
 from keras.src.optimizers.adam import Adam
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Embedding, LSTM, Dense
+from keras.src.legacy.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from keras.models import Sequential
+from keras.layers import Embedding, LSTM, Dense
 
 from preprocessing.preprocessing import Preprocessing
 
@@ -16,7 +16,7 @@ class LSTM_model:
 
         self.word_embedding()
         self.compile_model(ETA=0.0001)
-        self.train_model(epochs=20)
+        self.train_model(epochs=10)
 
     def word_embedding(self):
         tokenizer = Tokenizer(num_words=self.max_words, oov_token="<OOV>")
@@ -31,7 +31,7 @@ class LSTM_model:
         # Define and train the LSTM model:
         embedding_dim = 16  # Adjust based on your choice
         self.model = Sequential([
-            Embedding(input_dim=self.max_words, output_dim=embedding_dim, input_length=self.max_len),
+            Embedding(input_dim=self.max_words, output_dim=embedding_dim),
             LSTM(64, dropout=0.2, recurrent_dropout=0.2),
             Dense(3, activation='softmax')  # 3 classes: 1, 0, -1
         ])

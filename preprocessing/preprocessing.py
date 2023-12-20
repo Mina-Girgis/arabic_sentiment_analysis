@@ -11,7 +11,9 @@ from nltk.corpus import wordnet, stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 import string
 # import emoji
-
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
 
 class Preprocessing:
     punctuations_list = '''`÷×؛<>_()*&^%][ـ،/:"؟.,'{}~¦+|!”…“–ـ''' + string.punctuation
