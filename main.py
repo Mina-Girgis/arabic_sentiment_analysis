@@ -34,7 +34,7 @@ if __name__ == "__main__":
     validation_data = load_file("test _no_label.csv")
     predictions = lstm_model.predict_sentiment(validation_data)
 
-    save_file(predictions, "validation_LSTM")
+    save_file(predictions, "validation_LSTM.csv")
     # endregion
 
     # region Transformer Model
